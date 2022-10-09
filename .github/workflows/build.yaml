@@ -46,8 +46,9 @@ jobs:
           ./build.sh dev
       - name: Test starting image
         run: |
-           export IMAGE=${{steps.build_dev.outputs.image_name}}:${{ steps.defaults.outputs.image_tag }}
+           export IMAGE=${{steps.build_dev.outputs.image_name}}:${{ steps.build_dev.outputs.image_tag }}
            ./test.sh
+           docker run --rm -v$(pwd)/tests/xdebug.sh:/app/xdebug.sh $IMAGE bash /app/xdebug.sh
       
       - name: Log in to Docker Hub
         if: github.ref_name == 'main'
