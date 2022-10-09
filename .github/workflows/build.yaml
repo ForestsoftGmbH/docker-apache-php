@@ -23,7 +23,9 @@ jobs:
             exit 1
           fi
       - name: Test starting image
-        run: docker run --rm ${{steps.build.outputs.image_name}}:${{ steps.build.outputs.image_tag }}
+        run: |
+           export IMAGE=${{steps.build.outputs.image_name}}:${{ steps.build.outputs.image_tag }}
+           ./test.sh
       - name: Log in to Docker Hub
         if: github.ref_name == 'main'
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin

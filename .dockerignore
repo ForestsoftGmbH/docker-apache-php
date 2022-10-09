@@ -2,3 +2,4 @@
 !forestsoft/
 !docker-php-entrypoint
 !php.ini
+!healthcheck.sh

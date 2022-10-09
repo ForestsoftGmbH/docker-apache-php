@@ -19,6 +19,12 @@ RUN apt-get clean \
     && docker-php-ext-install -j$(nproc) gd intl pdo pdo_mysql zip mbstring simplexml mysqli opcache
 
 RUN  apt-get clean \
-     && rm -Rf /var/lib/apt/lists/ 
+     && rm -Rf /var/lib/apt/lists/ \
+     && mkdir -p /var/www/html/health \
+    && echo "<?php echo 'Healthy';" > /var/www/html/health/index.php
+
+COPY healthcheck.sh /usr/local/bin/healthcheck.sh
+
+HEALTHCHECK --timeout=5s --start-period=30s CMD /usr/local/bin/healthcheck.sh
 
 FROM $BASE_IMAGE as dev
