@@ -1,0 +1,24 @@
+name: Build Container and Push to Docker Hub
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to build'
+        required: true
+        default: 'latest'
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        id: build
+        run: ./build.sh
+      - name: Test starting image
+        run: docker run --rm ${{steps.build.outputs.image_name}}:${{ steps.build.outputs.image_tag }}
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      - name: Push image to Docker Hub
+        run: docker push ${{steps.build.outputs.image_name}}:${{ steps.build.outputs.image_tag }}

@@ -1,0 +1,4 @@
+*
+!forestsoft/
+!docker-php-entrypoint
+!php.ini
