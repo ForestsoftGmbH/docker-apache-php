@@ -6,6 +6,7 @@ FROM composer:${COMPOSER_VERSION} AS composer
 FROM php:${PHP_VERSION}-apache as production
 ENV COMPOSER_HOME=/var/www/.composer
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PHP_ERR_REPORTING=8183
 COPY ./docker-php-entrypoint /usr/local/bin/docker-php-entrypoint
 COPY ./forestsoft /usr/local/bin/forestsoft
 COPY ./php.ini /usr/local/etc/php/php.ini
@@ -32,6 +33,8 @@ HEALTHCHECK --timeout=5s --start-period=30s CMD /usr/local/bin/healthcheck.sh
 FROM $BASE_IMAGE as dev
 
 COPY xdebug.sh /usr/local/bin/xdebug.sh
+COPY development /usr/local/bin/forestsoft/
+
 RUN pecl install xdebug \
     && echo "memory_limit=1024M" >> /usr/local/etc/php/conf.d/50-forestsoft.ini \
     && echo ";zend_extension=xdebug" >>  /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
