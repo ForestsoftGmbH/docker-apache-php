@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+. /usr/local/bin/forestsoft/functions.sh
+
+includeScriptDir "/usr/local/bin/forestsoft/init-container"
+
+# first arg is `-f` or `--some-option`
+if [ "bash" = "$1" ] || [ "/bin/bash" = "$1" ]; then
+  exec "$@"
+else
+  includeScriptDir "/usr/local/bin/forestsoft/init-apache"
+  if [ "${1#-}" != "$1" ]; then
+    set -- apache2-foreground "$@"
+  fi
+  exec "$@"
+fi
