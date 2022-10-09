@@ -45,7 +45,7 @@ jobs:
           ./build.sh dev
       - name: Test starting image
         run: |
-           export IMAGE=${{steps.build_dev.outputs.image_name}}:${{ steps.build_dev.outputs.image_tag }}
+           export IMAGE=${{steps.build_dev.outputs.image_name}}:${{ steps.defaults.outputs.image_tag }}
            ./test.sh
       
       - name: Log in to Docker Hub

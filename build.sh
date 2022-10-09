@@ -18,4 +18,6 @@ docker build \
     --target="$TARGET" \
     .
 SIZE=$(docker images forestsoft/php-apache --format "{{.Size}}")
+echo "::set-output name=image_tag::$IMAGE_TAG"
+echo "::set-output name=image_name::$IMAGE_NAME"
 echo "::set-output name=image_size::${SIZE/MB/}"
