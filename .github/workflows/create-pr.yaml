@@ -1,0 +1,11 @@
+name: Pull Request on
+on:
+  create
+jobs:
+   create-pull-request:
+     runs-on: ubuntu-latest
+     if: contains('refs/heads/feat', github.ref) || contains('refs/heads/fix', github.ref) || contains('refs/heads/bugfix', github.ref) || contains('refs/heads/hotfix', github.ref)
+     steps:
+      - uses: ForestsoftGmbH/gh-deploy-action/.github/actions/pull-request@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
