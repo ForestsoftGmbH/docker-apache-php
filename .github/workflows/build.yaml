@@ -13,9 +13,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: "Setup defaults"
+        id: defaults
+        run: |
+          IMAGE_NAME="forestsoft/php-apache"
+          PHP_VERSION="8.1"
+          IMAGE_TAG="$PHP_VERSION"
+          echo "::set-output name=image_tag::$IMAGE_TAG"
+          echo "::set-output name=image_name::$IMAGE_NAME"
+          echo "::set-output name=php_version::$PHP_VERSION"
       - name: Build the Docker image
         id: build
-        run: ./build.sh
+        run: |
+          export PHP_VERSION=${{ steps.defaults.outputs.php_version }}
+          docker pull ${{ steps.defaults.outputs.image_name }}:${{ steps.defaults.outputs.image_tag }}
+          ./build.sh
       - name: Check size
         run: |
           if [ " ${{steps.build.outputs.image_size}}" -gt 600 ]; then
@@ -24,16 +36,17 @@ jobs:
           fi
       - name: Test starting image
         run: |
-           export IMAGE=${{steps.build.outputs.image_name}}:${{ steps.build.outputs.image_tag }}
+           export IMAGE=${{steps.defaults.outputs.image_name}}:${{ steps.defaults.outputs.image_tag }}
            ./test.sh
       
       - name: Build the DEV image
         id: build_dev
         run: |
+          docker pull ${{ steps.defaults.outputs.image_name }}:${{ steps.defaults.outputs.image_tag }}-dev
           ./build.sh dev
       - name: Test starting image
         run: |
-           export IMAGE=${{steps.build_dev.outputs.image_name}}:${{ steps.build_dev.outputs.image_tag }}
+           export IMAGE=${{steps.build_dev.outputs.image_name}}:${{ steps.defaults.outputs.image_tag }}
            ./test.sh
       
       - name: Log in to Docker Hub
@@ -42,5 +55,5 @@ jobs:
       - name: Push image to Docker Hub
         if: github.ref_name == 'main'
         run: |
-          docker push ${{steps.build.outputs.image_name}}:${{ steps.build.outputs.image_tag }}
+          docker push ${{steps.defaults.outputs.image_name}}:${{ steps.defaults.outputs.image_tag }}
           docker push ${{steps.build_dev.outputs.image_name}}:${{ steps.build_dev.outputs.image_tag }}

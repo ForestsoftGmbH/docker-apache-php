@@ -12,12 +12,12 @@ if [ "$1" == "dev" ]; then
 fi
 
 docker build \
+    --cache-from "$IMAGE_NAME:$IMAGE_TAG" \
     -t ${IMAGE_NAME}:${IMAGE_TAG} \
     --build-arg BASE_IMAGE="${IMAGE_NAME}:${BASE_IMAGE_TAG}" \
     --target="$TARGET" \
     .
-
+SIZE=$(docker images forestsoft/php-apache --format "{{.Size}}")
 echo "::set-output name=image_tag::$IMAGE_TAG"
 echo "::set-output name=image_name::$IMAGE_NAME"
-SIZE=$(docker images forestsoft/php-apache --format "{{.Size}}")
 echo "::set-output name=image_size::${SIZE/MB/}"
