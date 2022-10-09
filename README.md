@@ -1,5 +1,5 @@
 # forestsoft/php-apache
-[![Build Container and Push to Docker Hub](https://github.com/ForestsoftGmbH/docker-apache-php/actions/workflows/build.yaml/badge.svg)](https://github.com/ForestsoftGmbH/docker-apache-php/actions/workflows/build.yaml)
+[![QA](https://github.com/ForestsoftGmbH/docker-apache-php/actions/workflows/build.yaml/badge.svg)](https://github.com/ForestsoftGmbH/docker-apache-php/actions/workflows/build.yaml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/forestsoft/php-apache.svg)](https://hub.docker.com/r/forestsoft/php-apache/)
 [![Docker Stars](https://img.shields.io/docker/stars/forestsoft/php-apache.svg)](https://hub.docker.com/r/forestsoft/php-apache/)
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/forestsoft/php-apache?sort=semver)](https://hub.docker.com/r/forestsoft/php-apache/)
