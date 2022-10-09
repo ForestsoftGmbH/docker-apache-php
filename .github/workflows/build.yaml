@@ -42,6 +42,7 @@ jobs:
       - name: Build the DEV image
         id: build_dev
         run: |
+          docker pull ${{ steps.defaults.outputs.image_name }}:${{ steps.defaults.outputs.image_tag }}-dev
           ./build.sh dev
       - name: Test starting image
         run: |
