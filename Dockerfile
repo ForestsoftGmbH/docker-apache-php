@@ -12,7 +12,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 RUN apt-get clean \
     && apt update \
-    && apt install -y nano curl zip libzip-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libxml2-dev openssl \ 
+    && apt install -y nano curl zip libonig-dev libzip-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libxml2-dev openssl \ 
     && a2enmod ssl rewrite \
     && a2ensite default-ssl \
     && docker-php-ext-install -j$(nproc) gd intl pdo pdo_mysql zip mbstring simplexml mysqli opcache
