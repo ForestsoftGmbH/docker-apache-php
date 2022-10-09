@@ -1,5 +1,6 @@
 *
 !forestsoft/
+!development/
 !docker-php-entrypoint
 !php.ini
 !healthcheck.sh
