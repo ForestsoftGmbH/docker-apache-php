@@ -18,7 +18,7 @@ jobs:
         run: ./build.sh
       - name: Check size
         run: |
-          if [ " ${{steps.build.outputs.image_size}}" -gt 300 ]; then
+          if [ " ${{steps.build.outputs.image_size}}" -gt 500 ]; then
             echo "Image size of  ${{steps.build.outputs.image_size}} is too big"
             exit 1
           fi
