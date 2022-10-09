@@ -16,7 +16,9 @@ docker rm -f container_under_test > /dev/null 2>&1 || true
 ID=$(docker run -d -eCONTAINER_LOG_LEVEL=$LOG_LEVEL --name $CONTAINER_NAME $IMAGE)
 # until [ "`docker inspect -f {{.State.Running}} container_under_test`"=="true" ]; do
 while true; do
+    set -e -o pipefail
     status=$(docker inspect --format "{{json .State }}" $CONTAINER_NAME | jq -r '.Status')
+    set +e +o pipefail
     if [ "$status" = "exited" ]; then
         echo ""
         break_test "Container exited"
