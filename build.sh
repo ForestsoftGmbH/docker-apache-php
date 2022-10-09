@@ -1,13 +1,19 @@
 #!/bin/bash
 set -e
 IMAGE_NAME="forestsoft/php-apache"
-PHP_VERSION="8.1"
+PHP_VERSION=${PHP_VERSION:-"8.1"}
 IMAGE_TAG="$PHP_VERSION"
-TARGET="production"
+BASE_IMAGE_TAG=${BASE_IMAGE_TAG:-"$IMAGE_TAG"}
+TARGET=${TARGET:-"production"}
+if [ "$1" == "dev" ]; then
+  IMAGE_TAG="$IMAGE_TAG-dev"
+  BASE_IMAGE_TAG=${BASE_IMAGE_TAG:-"$IMAGE_TAG"}
+  TARGET="dev"
+fi
 
 docker build \
     -t ${IMAGE_NAME}:${IMAGE_TAG} \
-    --build-arg BASE_IMAGE="${IMAGE_NAME}:${IMAGE_TAG}" \
+    --build-arg BASE_IMAGE="${IMAGE_NAME}:${BASE_IMAGE_TAG}" \
     --target="$TARGET" \
     .
 

@@ -12,3 +12,20 @@ docker run --rm -it \
  -eSESSION_SAVE_PATH=/tmp/ \
  forestsoft/php-apache:8.1 bash
 ```
+
+## Contents
+
+This image contains following php extension pre-installed:
+
+### Production version:
+- gd
+- redis
+- zip
+- pdo_mysql
+- simplexml
+
+
+### Development version:
+The development version depends on production and install additional packages:
+
+- xdebug

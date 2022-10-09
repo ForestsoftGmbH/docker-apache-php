@@ -16,6 +16,8 @@ RUN apt-get clean \
     && apt install  --no-install-recommends -y nano curl zip libonig-dev libzip-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libxml2-dev openssl \ 
     && a2enmod ssl rewrite \
     && a2ensite default-ssl \
+    && pecl install redis \
+    && echo "extension=redis.so" >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/40-redis.ini \
     && docker-php-ext-install -j$(nproc) gd intl pdo pdo_mysql zip mbstring simplexml mysqli opcache
 
 RUN  apt-get clean \
@@ -28,3 +30,10 @@ COPY healthcheck.sh /usr/local/bin/healthcheck.sh
 HEALTHCHECK --timeout=5s --start-period=30s CMD /usr/local/bin/healthcheck.sh
 
 FROM $BASE_IMAGE as dev
+
+COPY xdebug.sh /usr/local/bin/xdebug.sh
+RUN pecl install xdebug \
+    && echo "memory_limit=1024M" >> /usr/local/etc/php/conf.d/50-forestsoft.ini \
+    && echo ";zend_extension=xdebug" >>  /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo ";xdebug.client_host=127.0.0.1" >>   /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo ";xdebug.mode=debug" >>   /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
