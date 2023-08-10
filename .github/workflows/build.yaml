@@ -46,6 +46,7 @@ jobs:
       - name: Build the DEV image
         id: build_dev
         run: |
+          export PHP_VERSION=${{ steps.defaults.outputs.php_version }}
           docker pull ${{ steps.defaults.outputs.image_name }}:${{ steps.defaults.outputs.image_tag }}-dev || true
           ./build.sh dev
       - name: Test starting image
