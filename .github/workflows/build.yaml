@@ -2,12 +2,16 @@ name: Build Container and Push to Docker Hub
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Tag to build'
+      php_version:
+        type: choice
+        description: 'PHP Version'
         required: true
-        default: 'latest'
-  push:
-
+        default: '8.2'
+        options:
+          - '8.2'
+          - '8.1'
+          - '8.0'
+          - '7.4'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,7 +21,7 @@ jobs:
         id: defaults
         run: |
           IMAGE_NAME="forestsoft/php-apache"
-          PHP_VERSION="8.1"
+          PHP_VERSION="${inputs.php_version}"
           IMAGE_TAG="$PHP_VERSION"
           echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
           echo "image_name=$IMAGE_NAME" >> $GITHUB_OUTPUT
