@@ -15,6 +15,7 @@ docker build \
     --cache-from "$IMAGE_NAME:$IMAGE_TAG" \
     -t ${IMAGE_NAME}:${IMAGE_TAG} \
     --build-arg BASE_IMAGE="${IMAGE_NAME}:${BASE_IMAGE_TAG}" \
+    --build-arg PHP_VERSION="${PHP_VERSION}" \
     --target="$TARGET" \
     .
 SIZE=$(docker images $IMAGE_NAME:$IMAGE_TAG --format "{{.Size}}")
