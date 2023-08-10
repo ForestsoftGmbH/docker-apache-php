@@ -19,9 +19,9 @@ jobs:
           IMAGE_NAME="forestsoft/php-apache"
           PHP_VERSION="8.1"
           IMAGE_TAG="$PHP_VERSION"
-          echo "::set-output name=image_tag::$IMAGE_TAG"
-          echo "::set-output name=image_name::$IMAGE_NAME"
-          echo "::set-output name=php_version::$PHP_VERSION"
+          echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "image_name=$IMAGE_NAME" >> $GITHUB_OUTPUT
+          echo "php_version=$PHP_VERSION" >> $GITHUB_OUTPUT
       - name: Build the Docker image
         id: build
         run: |

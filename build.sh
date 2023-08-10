@@ -18,6 +18,7 @@ docker build \
     --target="$TARGET" \
     .
 SIZE=$(docker images $IMAGE_NAME:$IMAGE_TAG --format "{{.Size}}")
-echo "::set-output name=image_tag::$IMAGE_TAG"
-echo "::set-output name=image_name::$IMAGE_NAME"
-echo "::set-output name=image_size::${SIZE/MB/}"
+
+echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+echo "image_name=$IMAGE_NAME" >> $GITHUB_OUTPUT
+echo "image_size=${SIZE/MB/}" >> $GITHUB_OUTPUT
