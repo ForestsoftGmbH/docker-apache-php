@@ -30,7 +30,7 @@ jobs:
         id: build
         run: |
           export PHP_VERSION=${{ steps.defaults.outputs.php_version }}
-          docker pull ${{ steps.defaults.outputs.image_name }}:${{ steps.defaults.outputs.image_tag }}
+          docker pull ${{ steps.defaults.outputs.image_name }}:${{ steps.defaults.outputs.image_tag }} || true
           ./build.sh
       - name: Check size
         run: |
@@ -46,7 +46,7 @@ jobs:
       - name: Build the DEV image
         id: build_dev
         run: |
-          docker pull ${{ steps.defaults.outputs.image_name }}:${{ steps.defaults.outputs.image_tag }}-dev
+          docker pull ${{ steps.defaults.outputs.image_name }}:${{ steps.defaults.outputs.image_tag }}-dev || true
           ./build.sh dev
       - name: Test starting image
         run: |
